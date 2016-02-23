@@ -1,0 +1,123 @@
+.chessboard {
+  width  : 640px;
+  height : 640px;
+  margin : 20px;
+  border : 25px solid #333;
+}
+
+div {
+  position : relative;
+}
+
+.wrapper {
+  float : left;
+}
+
+.cell {
+  float          : left;
+  width          : 80px;
+  height         : 80px;
+  font-size      : 50px;
+  text-align     : center;
+  display        : table-cell;
+  vertical-align : middle;
+}
+
+.active-cell {
+  background : #88bbff;
+}
+
+.path-cell {
+  &:after {
+    content    : "";
+    position   : absolute;
+    top        : 0;
+    bottom     : 0;
+    left       : 0;
+    right      : 0;
+    background : rgba(15, 115, 115, 0.2);
+  }
+}
+
+.black {
+  background-color : #999;
+}
+
+.white {
+  background-color : #fff;
+}
+
+.piece-type {
+  &-p {
+    &-white {
+      &:after {
+        content : "\2659";
+      }
+    }
+    &-black {
+      &:after {
+        content : "\265F";
+      }
+    }
+  }
+  &-r {
+    &-white {
+      &:after {
+        content : "\2656";
+      }
+    }
+    &-black {
+      &:after {
+        content : "\265C";
+      }
+    }
+  }
+  &-n {
+    &-white {
+      &:after {
+        content : "\2658";
+      }
+    }
+    &-black {
+      &:after {
+        content : "\265E";
+      }
+    }
+  }
+  &-b {
+    &-white {
+      &:after {
+        content : "\2657";
+      }
+    }
+    &-black {
+      &:after {
+        content : "\265D";
+      }
+    }
+  }
+  &-q {
+    &-white {
+      &:after {
+        content : "\2655";
+      }
+    }
+    &-black {
+      &:after {
+        content : "\265B";
+      }
+    }
+  }
+  &-k {
+    &-white {
+      &:after {
+        content : "\2654";
+      }
+    }
+    &-black {
+      &:after {
+        content : "\265A";
+      }
+    }
+  }
+}
