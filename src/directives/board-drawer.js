@@ -6,12 +6,12 @@ export default function () {
         link: (scope, element) => {
             scope.$watch("blocks", function (blocks) {
                 if (blocks !== undefined) {
+                    element.empty();
                     draw();
                 }
             });
 
             function draw() {
-                let parent = angular.element("<div class='chessboard'></div>");
                 for (var i = 1; i < 9; i++) {
                     let wrapper = angular.element("<div class='wrapper'></div>");
                     for (var j = 1; j < 9; j++) {
@@ -26,10 +26,8 @@ export default function () {
                         }
                         wrapper.append(div);
                     }
-                    parent.append(wrapper);
+                    element.append(wrapper);
                 }
-
-                element.append(parent);
             }
         }
     }

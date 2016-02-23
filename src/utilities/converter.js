@@ -1,5 +1,5 @@
 let toIndexesMap = {a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, h: 8};
-let fromIndexesMap = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+let fromIndexesMap = [undefined, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 export default class Converter {
     static toIndexes(str) {
         let x = toIndexesMap[str[0]];
@@ -8,6 +8,7 @@ export default class Converter {
     }
 
     static fromIndexes(x, y) {
+        // first index denotes rows, second - column
         return fromIndexesMap[x] + y;
     }
 }

@@ -3,14 +3,29 @@ import Piece from '../models/piece';
 import Converter from '../utilities/converter';
 
 export default class Game {
-    constructor(currentPlayer, gameOver, inCheck, blocks) {
-        this.currentPlayer = currentPlayer;
-        this.gameOver = gameOver;
-        this.inCheck = inCheck;
-        this.blocks = blocks;
+    constructor(restService, $rootScope) {
+        this._restService = restService;
+        this._events = $rootScope.$new(true);
+        this.currentPlayer = null;
+        this.gameOver = null;
+        this.inCheck = null;
+        this.blocks = null;
+        this.validMoves = [];
     }
 
-    static init(values) {
+    play() {
+        return this._restService.startGame().then(this.processState.bind(this));
+    }
+
+    on(type, callback) {
+        this._events.$on(type, callback);
+    }
+
+    trigger(type, data) {
+        this._events.$emit(type, data);
+    }
+
+    processState(values) {
         let blocks = [];
         for (let i = 1; i < 9; i++) {
             blocks[i] = [];
@@ -26,6 +41,44 @@ export default class Game {
             blocks[coordinates[0]][coordinates[1]] = new Block(coordinates, piece);
         }
 
-        return new Game(values.currentPlayer, values.gameOver, values.inCheck, blocks);
+        this.currentPlayer = values.currentPlayer;
+        this.gameOver = values.gameOver;
+        this.inCheck = values.inCheck;
+        this.blocks = blocks;
+
+        this.trigger('data-updated', this.blocks);
+    }
+
+    move(origin, destination) {
+        let originConverted = Converter.fromIndexes(origin.coordinates[0], origin.coordinates[1]);
+        let destinationConverted = Converter.fromIndexes(destination.coordinates[0], destination.coordinates[1]);
+        return this._restService.move(originConverted, destinationConverted).then(this.processState.bind(this));
+    }
+
+    getValidMoves() {
+        return this._restService.getValidMoves().then((values) => {
+            this.validMoves = values.map((v) => {
+                return {
+                    origin: Converter.toIndexes(v.origin),
+                    destination: Converter.toIndexes(v.destination)
+                }
+            });
+        });
+    }
+
+    getValidMoveCoordinates(block) {
+        return this.validMoves.filter((data) => data.origin[0] === block.coordinates[0] && data.origin[1] === block.coordinates[1]);
+    }
+
+    isValidMove(origin, destination) {
+        let moves = this.getValidMoveCoordinates(origin);
+        let allowed = false;
+        moves.forEach((move) => {
+            if (move.destination[0] === destination.coordinates[0] && move.destination[1] === destination.coordinates[1]) {
+                allowed = true;
+            }
+        });
+
+        return allowed;
     }
 }

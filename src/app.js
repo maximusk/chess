@@ -18,4 +18,5 @@ import RestService from './services/rest-service';
 angular.module('main', [])
     .directive('boardDrawer', boardDrawer)
     .controller('indexController', indexController)
+    .service('game', Game)
     .service('restService', RestService);
