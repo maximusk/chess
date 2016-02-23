@@ -1,0 +1,22 @@
+{
+  "name": "chess",
+  "description": "online chess game",
+  "main": "main.js",
+  "authors": [
+    "maxim koretskyi"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/maximusk/chess",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-dragdrop": "~1.0.13",
+    "jquery": "~2.2.1"
+  }
+}

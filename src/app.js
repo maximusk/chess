@@ -1,4 +1,8 @@
+// quick fix for angularDragDrop window.jQuery dependency
+window.jQuery = require("jquery");
+require("jqueryUi");
 require("angular");
+require("angularDragDrop");
 
 // models
 import Game from './models/game';
@@ -15,7 +19,7 @@ import indexController from './controllers/index.js';
 import RestService from './services/rest-service';
 
 // services
-angular.module('main', [])
+angular.module('main', ['ngDragDrop'])
     .directive('boardDrawer', boardDrawer)
     .controller('indexController', indexController)
     .service('game', Game)

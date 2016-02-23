@@ -46,7 +46,9 @@ export default class Game {
         this.inCheck = values.inCheck;
         this.blocks = blocks;
 
-        this.trigger('data-updated', this.blocks);
+        this.getValidMoves().then(() => {
+            this.trigger('data-updated', this.blocks);
+        });
     }
 
     move(origin, destination) {
@@ -66,8 +68,8 @@ export default class Game {
         });
     }
 
-    getValidMoveCoordinates(block) {
-        return this.validMoves.filter((data) => data.origin[0] === block.coordinates[0] && data.origin[1] === block.coordinates[1]);
+    getValidMoveCoordinates(coordinates) {
+        return this.validMoves.filter((data) => data.origin[1] === coordinates[0] && data.origin[0] === coordinates[1]);
     }
 
     isValidMove(origin, destination) {

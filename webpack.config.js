@@ -17,9 +17,18 @@ module.exports = {
     },
     resolve: {
         alias: {
-            angular: path.join(__dirname, './node_modules/angular/angular.js')
+            jquery: path.join(__dirname, './bower_components/jquery/dist/jquery.js'),
+            jqueryUi: path.join(__dirname, './bower_components/jquery-ui/jquery-ui.js'),
+            angular: path.join(__dirname, './node_modules/angular/angular.js'),
+            angularDragDrop: path.join(__dirname, './bower_components/angular-dragdrop/src/angular-dragdrop.js')
         }
     },
+    plugins: [
+        new webpack.ProvidePlugin({
+            _: "lodash",
+            jQuery: "jquery"
+        })
+    ],
     module: {
         loaders: [
             {

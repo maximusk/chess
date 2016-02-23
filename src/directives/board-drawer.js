@@ -1,8 +1,5 @@
-export default function () {
+export default function ($compile) {
     return {
-        scope: {
-            blocks: "=bdBlocks"
-        },
         link: (scope, element) => {
             scope.$watch("blocks", function (blocks) {
                 if (blocks !== undefined) {
@@ -20,14 +17,18 @@ export default function () {
                         let color = (i + j) % 2 === 0 ? 'white' : 'black';
                         if (block.piece !== null) {
                             let pieceClass = `piece-type-${block.piece.type}-${block.piece.owner.toLowerCase()}`;
-                            div = `<div class='cell ${color} ${pieceClass}'></div>`;
+                            // passing coordinates as joined string to avoid angular expression parsing errors
+                            let coordinates = [i, j].join("");
+                            let span = `<span data-drag="true" jqyoui-draggable="{onStart:'dragStart(${coordinates})', onStop:'dragStop()'}" class="${pieceClass}"></span>`;
+                            div = `<div ng-class="{'path-cell': highlightedCells.indexOf('${[j, i].join("")}') !== -1}" class='cell ${color}'>${span}</div>`;
                         } else {
-                            div = `<div class='cell ${color}'></div>`;
+                            div = `<div ng-class="{'path-cell': highlightedCells.indexOf('${[j, i].join("")}') !== -1}" class='cell ${color}'></div>`;
                         }
                         wrapper.append(div);
                     }
                     element.append(wrapper);
                 }
+                $compile(element.contents())(scope);
             }
         }
     }

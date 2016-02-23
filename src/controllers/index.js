@@ -1,3 +1,4 @@
+"use strict";
 export default function indexController($scope, game) {
     var {assign} = Object;
 
@@ -12,6 +13,23 @@ export default function indexController($scope, game) {
     });
 
     assign($scope, {
+        highlightedCells: [],
+        dragStart: (...params) => {
+            let block = String(params[2]);
+            let coordinates = block.split("").map((num) => {
+                return Number(num);
+            });
+            let validCoordinates = game.getValidMoveCoordinates(coordinates);
+            validCoordinates.forEach((co) => {
+                $scope.highlightedCells.push(co.destination[0] + "" + co.destination[1]);
+            });
+            console.log($scope.highlightedCells);
+            $scope.$digest();
+        },
+        dragStop: () => {
+            $scope.highlightedCells = [];
+            $scope.$digest();
+        },
         render: () => {
 
         }
@@ -32,5 +50,4 @@ export default function indexController($scope, game) {
      }, 1000);*/
 
     //let valid = game.isValidMove($scope.blocks[1][2], $scope.blocks[1][4]);
-    //let co = game.getValidMoveCoordinates($scope.blocks[1][2]);
 }
